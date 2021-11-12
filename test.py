@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 
-dates = [20211101]
+dates = [20211001,20211101]
 stockNo = 2330
 url_template = "https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=html&date={}&stockNo={}"
 
