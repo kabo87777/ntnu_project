@@ -6,7 +6,7 @@ from talib import abstract
 def RSI(df, period):
     return abstract.RSI(df, timeperiod=period)
 
-stock_num = str(input("enter stock number:"))
+stock_num = str(input("輸入股票代碼:"))
 
 start = datetime.datetime(2021,9,28)
 stock_df = pdr.DataReader(stock_num+'.TW', 'yahoo', start=start)
