@@ -1,3 +1,4 @@
 pandas_datareader
 mplfinance
 datetime
+TA-Lib
