@@ -38,8 +38,8 @@ if(stock_df is not None):
 
     index  = [mpf.make_addplot(stock_df["MACD"], panel = 2,type='bar', ylabel = 'MACD', color = 'red'),
               mpf.make_addplot(RSI(stock_df, 14), panel = 3, ylabel = 'RSI', color = 'lime'),
-              mpf.make_addplot(stock_df["k"], panel = 4, ylabel = 'KD', color = 'yellow'),
-              mpf.make_addplot(stock_df["d"], panel = 4,  color = 'blue')
+              mpf.make_addplot(stock_df["k"], panel = 4, ylabel = 'KD', color = 'cyan'),
+              mpf.make_addplot(stock_df["d"], panel = 4,  color = 'orange')
             ]
 
     ##畫圖
