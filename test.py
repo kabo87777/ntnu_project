@@ -26,6 +26,10 @@ if(stock_df is not None):
     
     ###KD值
     stock_df['k'], stock_df['d'] = talib.STOCH(stock_df['High'], stock_df['Low'], stock_df['close'],fastk_period = 9)
+
+    ### 布林
+    stock_df['upperband'],stock_df['middleband'],stock_df['lowerband']= talib.BBANDS(stock_df['close'], timeperiod=5, nbdevup=2, nbdevdn=2, matype=0)
+
     
     ##print(stock_df)
 
@@ -36,10 +40,15 @@ if(stock_df is not None):
 
 
 
-    index  = [mpf.make_addplot(stock_df["MACD"], panel = 2,type='bar', ylabel = 'MACD', color = 'red'),
-              mpf.make_addplot(RSI(stock_df, 14), panel = 3, ylabel = 'RSI', color = 'lime'),
-              mpf.make_addplot(stock_df["k"], panel = 4, ylabel = 'KD', color = 'cyan'),
-              mpf.make_addplot(stock_df["d"], panel = 4,  color = 'orange')
+    index  = [
+            mpf.make_addplot(stock_df[['upperband','lowerband']],color = 'cyan'),
+            mpf.make_addplot(stock_df['middleband'],color='y'),
+        
+        
+            mpf.make_addplot(stock_df["MACD"], panel = 2,type='bar', ylabel = 'MACD', color = 'red'),
+            mpf.make_addplot(RSI(stock_df, 14), panel = 3, ylabel = 'RSI', color = 'lime'),
+            mpf.make_addplot(stock_df["k"], panel = 4, ylabel = 'KD', color = 'cyan'),
+            mpf.make_addplot(stock_df["d"], panel = 4,  color = 'orange')
             ]
 
     ##畫圖
