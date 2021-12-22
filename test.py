@@ -1,3 +1,4 @@
+# coding=UTF-8
 import mplfinance as mpf
 import pandas_datareader as pdr
 import datetime as datetime
