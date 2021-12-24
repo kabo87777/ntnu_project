@@ -36,7 +36,7 @@ if(stock_df is not None):
 
     mc = mpf.make_marketcolors(up='r',down='g', edge='', wick='inherit',volume='inherit')
 
-    s = mpf.make_mpf_style(gridaxis='both',gridstyle='-',y_on_right=True,marketcolors=mc,edgecolor='white',figcolor='white',facecolor='black', gridcolor='gray')
+    s = mpf.make_mpf_style(gridaxis='both',gridstyle='-.',y_on_right=True,marketcolors=mc,edgecolor='white',figcolor='white',facecolor='black', gridcolor='gray')
     ##reference :https://blog.csdn.net/weixin_48964486/article/details/116229333
 
 
