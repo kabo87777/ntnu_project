@@ -42,14 +42,14 @@ if(stock_df is not None):
 
 
     index  = [
-            mpf.make_addplot(stock_df[['upperband','lowerband']],color = 'cyan'),
-            mpf.make_addplot(stock_df['middleband'],color='y'),
+            mpf.make_addplot(stock_df[['upperband','lowerband']],color = 'cyan',width=1),
+            mpf.make_addplot(stock_df['middleband'],color='y',width=1),
         
         
             mpf.make_addplot(stock_df["MACD"], panel = 2,type='bar', ylabel = 'MACD', color = 'red'),
-            mpf.make_addplot(RSI(stock_df, 14), panel = 3, ylabel = 'RSI', color = 'lime'),
-            mpf.make_addplot(stock_df["k"], panel = 4, ylabel = 'KD', color = 'cyan'),
-            mpf.make_addplot(stock_df["d"], panel = 4,  color = 'orange')
+            mpf.make_addplot(RSI(stock_df, 14), panel = 3, ylabel = 'RSI', color = 'lime',width=1),
+            mpf.make_addplot(stock_df["k"], panel = 4, ylabel = 'KD', color = 'cyan',width=1),
+            mpf.make_addplot(stock_df["d"], panel = 4,  color = 'orange',width=1)
             ]
 
     ##畫圖
