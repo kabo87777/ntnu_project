@@ -7,6 +7,8 @@ import talib
 import numpy as np
 import pandas as pd
 
+# kabo hi 
+
 def RSI(df, period):
     return abstract.RSI(df, timeperiod=period)
 
