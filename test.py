@@ -39,12 +39,10 @@ if(stock_df is not None):
     s = mpf.make_mpf_style(gridaxis='both',gridstyle='-.',y_on_right=True,marketcolors=mc,edgecolor='white',figcolor='white',facecolor='black', gridcolor='gray')
     ##reference :https://blog.csdn.net/weixin_48964486/article/details/116229333
 
-##
-
     index  = [
-            mpf.make_addplot(stock_df[['upperband','lowerband']],color = 'cyan',width=1),
+            mpf.make_addplot(stock_df['lowerband'],color = 'cyan',width=1),
             mpf.make_addplot(stock_df['middleband'],color='y',width=1),
-        
+            mpf.make_addplot(stock_df['upperband'],color = 'orange',width=1),
         
             mpf.make_addplot(stock_df["MACD"], panel = 2,type='bar', ylabel = 'MACD', color = 'red'),
             mpf.make_addplot(RSI(stock_df, 14), panel = 3, ylabel = 'RSI', color = 'lime',width=1),
