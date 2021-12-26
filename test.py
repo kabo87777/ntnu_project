@@ -1,4 +1,5 @@
 # coding=UTF-8
+from tkinter.constants import BOTH, CENTER, LEFT
 import mplfinance as mpf
 import pandas_datareader as pdr
 import datetime as datetime
@@ -7,11 +8,36 @@ import talib
 import numpy as np
 import pandas as pd
 
+import tkinter as tk
+import tkinter.tix as tix
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
+
+
 def RSI(df, period):
     return abstract.RSI(df, timeperiod=period)
 
-stock_num = str(input("輸入股票代碼:"))
+# 第1步，例項化object，建立視窗window
+window = tk.Tk()
 
+# 第2步，給視窗的視覺化起名字
+window.title('My Window')
+
+# 第3步，設定視窗的大小(長 * 寬)
+window.geometry('500x300')  # 這裡的乘是小x
+
+# 第4步，在圖形介面上建立一個標籤用以顯示內容並放置
+##tk.Label(window, text='on the window', bg='red', font=('Arial', 16)).pack()   # 和前面部件分開建立和放置不同，其實可以建立和放置一步完成
+
+# 第5步，建立一個主frame，長在主window視窗上
+frame = tk.Frame(window)
+frame.pack()
+
+frame1 = tk.Frame(frame)
+frame1.pack()
+
+
+##stock_num = str(input("輸入股票代碼:"))
+stock_num = '2330'
 start = datetime.datetime(2021,9,28)
 stock_df = pdr.DataReader(stock_num+'.TW', 'yahoo', start=start)
 if(stock_df is not None):
@@ -51,6 +77,20 @@ if(stock_df is not None):
             ]
 
     ##畫圖
-    mpf.plot(stock_df,type='candle',  title = stock_num ,style = s, mav=(5,10,20), addplot = index,volume=True)  ## mav = MA
+    daily_fig, axlist = mpf.plot(stock_df,type='candle',  title = stock_num ,style = s, mav=(5,10,20), addplot = index,volume=True, returnfig=True)  ## mav = MA
+    canvas = FigureCanvasTkAgg(daily_fig)
+    canvas.get_tk_widget().pack()
+  
+    # creating the Matplotlib toolbar
+    toolbar = NavigationToolbar2Tk(canvas,
+                                   window)
+    toolbar.update()
+  
+    # placing the toolbar on the Tkinter window
+    canvas.get_tk_widget().pack()
 else:
     print("wrong number")
+
+
+ 
+window.mainloop()
