@@ -7,7 +7,6 @@ from talib import abstract
 import talib
 import numpy as np
 import pandas as pd
-
 import tkinter as tk
 import tkinter.tix as tix
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
@@ -95,7 +94,8 @@ def go():
 hi_there = tk.Entry(window)
 hi_there.pack()
 
-mybutton = tk.Button(frame1, text="查詢" , command=go)
+#按鈕
+mybutton = tk.Button(frame1, text="輸入股票代碼" , command=go)
 mybutton.pack()
  
 window.mainloop()
