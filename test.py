@@ -12,7 +12,6 @@ import tkinter as tk
 import tkinter.tix as tix
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 
-
 def RSI(df, period):
     return abstract.RSI(df, timeperiod=period)
 
@@ -37,7 +36,8 @@ frame1.pack()
 
 def go():
     ##stock_num = str(input("輸入股票代碼:"))
-    stock_num = '2330'
+    ##stock_num = '2330'
+    stock_num = hi_there.get()
     start = datetime.datetime(2021,9,28)
     stock_df = pdr.DataReader(stock_num+'.TW', 'yahoo', start=start)
     if(stock_df is not None):
@@ -91,7 +91,11 @@ def go():
     else:
         print("wrong number")
 
-hi_there = tix.Button(frame1,text="查詢",command=go)
+#輸入框
+hi_there = tk.Entry(window)
 hi_there.pack()
+
+mybutton = tk.Button(frame1, text="查詢" , command=go)
+mybutton.pack()
  
 window.mainloop()
