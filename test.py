@@ -42,12 +42,13 @@ kd.set(False)
 # 第5步，建立一個主frame，長在主window視窗上
 frame = tk.Frame(window)
 frame.pack()
-
+canvas = None
 
 
 def go():
     ##stock_num = str(input("輸入股票代碼:"))
     ##stock_num = '2330'
+    global canvas
     stock_num = hi_there.get()
     start = datetime.datetime(2021,9,28)
     stock_df = pdr.DataReader(stock_num+'.TW', 'yahoo', start=start)
@@ -94,16 +95,19 @@ def go():
             panel+=1
         ##畫圖
         daily_fig, axlist = mpf.plot(stock_df,type='candle',  title = stock_num ,style = s, mav=(5,10,20), addplot = index,volume=True, returnfig=True)  ## mav = MA
+        if canvas: canvas.get_tk_widget().pack_forget()
         canvas = FigureCanvasTkAgg(daily_fig)
         canvas.get_tk_widget().pack()
     
-        # creating the Matplotlib toolbar
-        toolbar = NavigationToolbar2Tk(canvas,
-                                    window)
-        toolbar.update()
-        # placing the toolbar on the Tkinter window
-        canvas.get_tk_widget().pack()
-    
+        # # creating the Matplotlib toolbar
+        # toolbar = NavigationToolbar2Tk(canvas,window)
+        # toolbar.update()
+        # # placing the toolbar on the Tkinter window
+
+
+        # canvas.get_tk_widget().pack()
+        canvas.delete("all")
+             
     else:
         print("wrong number")
 
@@ -126,5 +130,7 @@ RSI_check.pack(side='left', ipadx=20, padx=30)
 
 KD_check = tk.Checkbutton(frame, text='KD', var=kd) 
 KD_check.pack(side='left', ipadx=20, padx=30)
+
+
  
 window.mainloop()
