@@ -85,9 +85,9 @@ def go():
         toolbar = NavigationToolbar2Tk(canvas,
                                     window)
         toolbar.update()
-    
         # placing the toolbar on the Tkinter window
         canvas.get_tk_widget().pack()
+    
     else:
         print("wrong number")
 
