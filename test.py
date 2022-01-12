@@ -23,6 +23,19 @@ window.title('股市視覺化')
 # 第3步，設定視窗的大小(長 * 寬)
 window.geometry('800x800')  # 這裡的乘是小x
 
+bband = tk.BooleanVar() 
+bband.set(True)
+
+macd = tk.BooleanVar() 
+macd.set(False)
+
+rsi = tk.BooleanVar() 
+rsi.set(False)
+
+kd = tk.BooleanVar() 
+kd.set(False)
+
+
 # 第4步，在圖形介面上建立一個標籤用以顯示內容並放置
 ##tk.Label(window, text='on the window', bg='red', font=('Arial', 16)).pack()   # 和前面部件分開建立和放置不同，其實可以建立和放置一步完成
 
@@ -30,8 +43,7 @@ window.geometry('800x800')  # 這裡的乘是小x
 frame = tk.Frame(window)
 frame.pack()
 
-frame1 = tk.Frame(frame)
-frame1.pack()
+
 
 def go():
     ##stock_num = str(input("輸入股票代碼:"))
@@ -64,17 +76,22 @@ def go():
         s = mpf.make_mpf_style(gridaxis='both',gridstyle='-.',y_on_right=True,marketcolors=mc,edgecolor='white',figcolor='white',facecolor='black', gridcolor='gray')
         ##reference :https://blog.csdn.net/weixin_48964486/article/details/116229333
 
-        index  = [
-                mpf.make_addplot(stock_df['lowerband'],color = 'cyan',width=1),
+        index  = []
+        panel = 2
+        if(bband.get()):
+            index.extend([mpf.make_addplot(stock_df['lowerband'],color = 'cyan',width=1),
                 mpf.make_addplot(stock_df['middleband'],color='y',width=1),
-                mpf.make_addplot(stock_df['upperband'],color = 'orange',width=1),
-            
-                mpf.make_addplot(stock_df["MACD"], panel = 2,type='bar', ylabel = 'MACD', color = 'red'),
-                mpf.make_addplot(RSI(stock_df, 14), panel = 3, ylabel = 'RSI', color = 'lime',width=1),
-                mpf.make_addplot(stock_df["k"], panel = 4, ylabel = 'KD', color = 'cyan',width=1),
-                mpf.make_addplot(stock_df["d"], panel = 4,  color = 'orange',width=1)
-                ]
-
+                mpf.make_addplot(stock_df['upperband'],color = 'orange',width=1)])
+        if(macd.get()):
+            index.extend([mpf.make_addplot(stock_df["MACD"], panel = panel,type='bar', ylabel = 'MACD', color = 'red')])
+            panel+=1
+        if(rsi.get()):
+            index.extend([mpf.make_addplot(RSI(stock_df, 14), panel = panel, ylabel = 'RSI', color = 'lime',width=1)])
+            panel+=1
+        if(kd.get()):
+            index.extend([mpf.make_addplot(stock_df["k"], panel = panel, ylabel = 'KD', color = 'cyan',width=1),
+                mpf.make_addplot(stock_df["d"], panel = panel,  color = 'orange',width=1)])
+            panel+=1
         ##畫圖
         daily_fig, axlist = mpf.plot(stock_df,type='candle',  title = stock_num ,style = s, mav=(5,10,20), addplot = index,volume=True, returnfig=True)  ## mav = MA
         canvas = FigureCanvasTkAgg(daily_fig)
@@ -95,7 +112,19 @@ hi_there = tk.Entry(window)
 hi_there.pack()
 
 #按鈕
-mybutton = tk.Button(frame1, text="輸入股票代碼" , command=go)
+mybutton = tk.Button(frame, text="輸入股票代碼" , command=go)
 mybutton.pack()
+
+BBAND_check = tk.Checkbutton(frame, text='BBAND', var=bband) 
+BBAND_check.pack()
+
+MACD_check = tk.Checkbutton(frame, text='MACD', var=macd) 
+MACD_check.pack()
+
+RSI_check = tk.Checkbutton(frame, text='RSI', var=rsi) 
+RSI_check.pack()
+
+KD_check = tk.Checkbutton(frame, text='KD', var=kd) 
+KD_check.pack()
  
 window.mainloop()
