@@ -37,12 +37,20 @@ kd.set(False)
 
 
 # 第4步，在圖形介面上建立一個標籤用以顯示內容並放置
-##tk.Label(window, text='on the window', bg='red', font=('Arial', 16)).pack()   # 和前面部件分開建立和放置不同，其實可以建立和放置一步完成
+##tk.Label(window, text='on the window', bg='red', font=('Arial', 16)).grid()   # 和前面部件分開建立和放置不同，其實可以建立和放置一步完成
 
 # 第5步，建立一個主frame，長在主window視窗上
-frame = tk.Frame(window)
-frame.pack()
+frame_strategy = tk.Frame(window)
+frame_strategy.grid(row=0, column=0)
+
+frame_entry = tk.Frame(window)
+frame_entry.grid(row=1, column=0)
+
+frame_plot = tk.Frame(window)
+frame_plot.grid(row=2, column=0)
+
 canvas = None
+
 
 
 def go():
@@ -95,9 +103,10 @@ def go():
             panel+=1
         ##畫圖
         daily_fig, axlist = mpf.plot(stock_df,type='candle',  title = stock_num ,style = s, mav=(5,10,20), addplot = index,volume=True, returnfig=True)  ## mav = MA
-        if canvas: canvas.get_tk_widget().pack_forget()
+        if canvas: canvas.get_tk_widget().grid_forget()
+        canvas = tk.Canvas(frame_plot, width=400, height=400)
         canvas = FigureCanvasTkAgg(daily_fig)
-        canvas.get_tk_widget().pack()
+        canvas.get_tk_widget().grid(row=2, column=0)
     
         # # creating the Matplotlib toolbar
         # toolbar = NavigationToolbar2Tk(canvas,window)
@@ -105,32 +114,35 @@ def go():
         # # placing the toolbar on the Tkinter window
 
 
-        # canvas.get_tk_widget().pack()
-        canvas.delete("all")
-             
+        # canvas.get_tk_widget().grid()     
     else:
         print("wrong number")
 
+but_col = 0
+BBAND_check = tk.Checkbutton(frame_strategy, text='BBAND', var=bband) 
+BBAND_check.grid(row=1, column=but_col)
+but_col += 1
+
+MACD_check = tk.Checkbutton(frame_strategy, text='MACD', var=macd) 
+MACD_check.grid(row=1, column=but_col)
+but_col += 1
+
+RSI_check = tk.Checkbutton(frame_strategy, text='RSI', var=rsi) 
+RSI_check.grid(row=1, column=but_col)
+but_col += 1
+
+KD_check = tk.Checkbutton(frame_strategy, text='KD', var=kd) 
+KD_check.grid(row=1, column=but_col)
+but_col += 1
+
 #輸入框
-hi_there = tk.Entry(window)
-hi_there.pack()
+hi_there = tk.Entry(frame_entry)
+hi_there.grid(row=2, column=1)
 
 #按鈕
-mybutton = tk.Button(frame, text="輸入股票代碼" , command=go)
-mybutton.pack()
+mybutton = tk.Button(frame_entry, text="搜尋" , command=go)
+mybutton.grid(row=2, column=2)
 
-BBAND_check = tk.Checkbutton(frame, text='BBAND', var=bband) 
-BBAND_check.pack(side='left', ipadx=20, padx=30)
-
-MACD_check = tk.Checkbutton(frame, text='MACD', var=macd) 
-MACD_check.pack(side='left', ipadx=20, padx=30)
-
-RSI_check = tk.Checkbutton(frame, text='RSI', var=rsi) 
-RSI_check.pack(side='left', ipadx=20, padx=30)
-
-KD_check = tk.Checkbutton(frame, text='KD', var=kd) 
-KD_check.pack(side='left', ipadx=20, padx=30)
-
-
- 
+searchlabel = tk.Label(frame_entry, text='輸入股票代碼')
+searchlabel.grid(row=2, column=0)
 window.mainloop()
