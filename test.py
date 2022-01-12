@@ -116,15 +116,15 @@ mybutton = tk.Button(frame, text="輸入股票代碼" , command=go)
 mybutton.pack()
 
 BBAND_check = tk.Checkbutton(frame, text='BBAND', var=bband) 
-BBAND_check.pack()
+BBAND_check.pack(side='left', ipadx=20, padx=30)
 
 MACD_check = tk.Checkbutton(frame, text='MACD', var=macd) 
-MACD_check.pack()
+MACD_check.pack(side='left', ipadx=20, padx=30)
 
 RSI_check = tk.Checkbutton(frame, text='RSI', var=rsi) 
-RSI_check.pack()
+RSI_check.pack(side='left', ipadx=20, padx=30)
 
 KD_check = tk.Checkbutton(frame, text='KD', var=kd) 
-KD_check.pack()
+KD_check.pack(side='left', ipadx=20, padx=30)
  
 window.mainloop()
