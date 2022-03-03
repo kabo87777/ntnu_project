@@ -58,7 +58,7 @@ def go():
     ##stock_num = '2330'
     global canvas
     stock_num = hi_there.get()
-    start = datetime.datetime(2021,9,28)
+    start = datetime.datetime(2019,2,24)
     stock_df = pdr.DataReader(stock_num+'.TW', 'yahoo', start=start)
     if(stock_df is not None):
         stock_df["close"] = stock_df["Close"]
@@ -114,7 +114,28 @@ def go():
         # # placing the toolbar on the Tkinter window
 
 
-        # canvas.get_tk_widget().grid()     
+        # canvas.get_tk_widget().grid() 
+        #for i in range(96):
+            #if(stock_df[i+3:i+4]['close']>stock_df[i:i+1]['close']):
+                #stock_df[i:i+1]['pre'] = 1
+            #else:
+                #stock_df[i:i+1]['pre'] = 0
+        #print(stock_df[0]['High'])  
+        #stock_df.set_index('Date')
+        #for date in stock_df.index[0:-6]:
+            #end_date = date + datetime.timedelta(days=3)
+            #if(stock_df.loc[[end_date.strftime("%Y-%m-%d")],['Close']]>stock_df.loc[[date.strftime("%Y-%m-%d")],['Close']]):
+                #stock_df.loc[[date.strftime("%Y-%m-%d")],['predict']] = 1
+            #else:
+                #stock_df.loc[[date.strftime("%Y-%m-%d")],['predict']] = 0
+        #print(stock_df.index[0])
+        stock_df["predict"] = int(0)
+        for i in range(len(stock_df.index)-3):
+            if((stock_df.loc[stock_df.index[i+3],['Close']]>stock_df.loc[stock_df.index[i],['Close']]).bool()):
+                stock_df.loc[stock_df.index[i],['predict']] = 1
+            else:
+                stock_df.loc[stock_df.index[i],['predict']] = 0
+        stock_df.to_csv('./SVM/'+stock_num+'.csv')
     else:
         print("wrong number")
 
@@ -146,3 +167,4 @@ mybutton.grid(row=2, column=2)
 searchlabel = tk.Label(frame_entry, text='輸入股票代碼')
 searchlabel.grid(row=2, column=0)
 window.mainloop()
+
