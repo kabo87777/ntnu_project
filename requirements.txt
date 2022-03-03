@@ -3,3 +3,4 @@ mplfinance
 datetime
 numpy
 pandas
+sklearn
