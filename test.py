@@ -40,8 +40,11 @@ kd.set(False)
 ##tk.Label(window, text='on the window', bg='red', font=('Arial', 16)).grid()   # 和前面部件分開建立和放置不同，其實可以建立和放置一步完成
 
 # 第5步，建立一個主frame，長在主window視窗上
-frame_strategy = tk.Frame(window)
+frame_strategy = tk.Frame(window,bg="black")
 frame_strategy.grid(row=0, column=0)
+
+frame_substrategy = tk.Frame(window)
+frame_substrategy.grid(row=0, column=1)
 
 frame_entry = tk.Frame(window)
 frame_entry.grid(row=1, column=0)
@@ -118,6 +121,11 @@ def go():
     else:
         print("wrong number")
 
+
+# 主技術分析策略: 5/10/20/60MA 布林通道 RSI
+
+# 副技術分析策略: VOL RSI MACD KD
+
 but_col = 0
 BBAND_check = tk.Checkbutton(frame_strategy, text='BBAND', var=bband) 
 BBAND_check.grid(row=1, column=but_col)
@@ -126,6 +134,7 @@ but_col += 1
 MACD_check = tk.Checkbutton(frame_strategy, text='MACD', var=macd) 
 MACD_check.grid(row=1, column=but_col)
 but_col += 1
+
 
 RSI_check = tk.Checkbutton(frame_strategy, text='RSI', var=rsi) 
 RSI_check.grid(row=1, column=but_col)
