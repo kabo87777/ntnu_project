@@ -1,5 +1,6 @@
 # coding=UTF-8
 from tkinter.constants import BOTH, CENTER, LEFT
+from matplotlib.pyplot import close
 import mplfinance as mpf
 import pandas_datareader as pdr
 import datetime as datetime
@@ -61,16 +62,28 @@ def go():
     ##stock_num = '2330'
     global canvas
     stock_num = hi_there.get()
-    start = datetime.datetime(2021,9,28)
+    start = datetime.datetime(2021,2,24)
     stock_df = pdr.DataReader(stock_num+'.TW', 'yahoo', start=start)
     if(stock_df is not None):
         stock_df["close"] = stock_df["Close"]
         close = [float(x) for x in stock_df["close"]]
-
+        
         ###指數平均線
-        # stock_df["EMA12"] = talib.EMA(np.array(close),timeperiod=6)
-        # stock_df["EMA26"] = talib.EMA(np.array(close),timeperiod=12)
-
+        gold_cross = np.array([])
+        death_cross = np.array([])
+        stock_df["EMA5"] = int(0)
+        stock_df["EMA10"] = int(0)
+        stock_df["EMA5"] = talib.EMA(np.array(close),timeperiod=5)
+        stock_df["EMA10"] = talib.EMA(np.array(close),timeperiod=10)
+        cross = np.where(stock_df['EMA5']>stock_df['EMA10'],1,-1)
+        for i in range(cross.size-1):
+            if cross[i]==-1 and cross[i+1]==1:
+                gold_cross = np.append(gold_cross,[stock_df.index[i]])
+            if cross[i]==1 and cross[i+1]==-1:
+                death_cross = np.append(death_cross,[stock_df.index[i]])
+        print("gold\n",gold_cross)
+        print("death\n",death_cross)
+    
         ###MACD
         stock_df["MACD"],stock_df["MACDsignal"],stock_df["MACDhist"] = talib.MACD(np.array(close),fastperiod = 6,slowperiod = 12,signalperiod = 9)
         
@@ -116,8 +129,20 @@ def go():
         # toolbar.update()
         # # placing the toolbar on the Tkinter window
 
+        stock_df["predict"] = int(0)
+        for i in range(len(stock_df.index)-3):
+            if((stock_df.loc[stock_df.index[i+3],['Close']]>stock_df.loc[stock_df.index[i],['Close']]).bool()):
+                stock_df.loc[stock_df.index[i],['predict']] = 1
+            else:
+                stock_df.loc[stock_df.index[i],['predict']] = 0
 
-        # canvas.get_tk_widget().grid()     
+        #for i in range(13,len(stock_df.index)-3):
+            #if((stock_df.loc[stock_df.index[i+1],['EMA12']]>stock_df.loc[stock_df.index[i+1],['EMA26']]).bool()):
+                #if((stock_df.loc[stock_df.index[i],['EMA12']]<stock_df.loc[stock_df.index[i],['EMA26']]).bool()):
+                    #print(stock_df.loc[stock_df.index[i],['Date']])
+                    #print('1')
+            
+        stock_df.to_csv('./SVM/'+stock_num+'.csv')
     else:
         print("wrong number")
 
@@ -155,3 +180,4 @@ mybutton.grid(row=2, column=2)
 searchlabel = tk.Label(frame_entry, text='輸入股票代碼')
 searchlabel.grid(row=2, column=0)
 window.mainloop()
+
