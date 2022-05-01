@@ -62,7 +62,7 @@ def go():
     ##stock_num = '2330'
     global canvas
     stock_num = hi_there.get()
-    start = datetime.datetime(2021,2,24)
+    start = datetime.datetime(2021,9,24)
     stock_df = pdr.DataReader(stock_num+'.TW', 'yahoo', start=start)
     if(stock_df is not None):
         stock_df["close"] = stock_df["Close"]
@@ -142,7 +142,7 @@ def go():
                     #print(stock_df.loc[stock_df.index[i],['Date']])
                     #print('1')
             
-        stock_df.to_csv('./SVM/'+stock_num+'.csv')
+        #stock_df.to_csv('./SVM/'+stock_num+'.csv')
     else:
         print("wrong number")
 
