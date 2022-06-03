@@ -1,6 +1,6 @@
 from tkinter import *
 
-
+#如果按下按鈕
 def btn_clicked():
     print("Button Clicked")
 
@@ -49,6 +49,7 @@ canvas.create_rectangle(
     fill = "#c4c4c4",
     outline = "")
 
+#搜尋框
 entry0_img = PhotoImage(file = f"img_textBox0.png")
 entry0_bg = canvas.create_image(
     887.0, 42.0,
