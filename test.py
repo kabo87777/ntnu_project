@@ -100,12 +100,6 @@ frame_entry.grid(row=1, column=0)
 frame_plot = tk.Frame(window)
 frame_plot.grid(row=2, column=0)
 
-<<<<<<< Updated upstream
-canvas = None
-=======
-#canvas = None 
->>>>>>> Stashed changes
-
 def go():
     ##stock_num = str(input("輸入股票代碼:"))
     ##stock_num = '2330'
