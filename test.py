@@ -55,8 +55,6 @@ frame_plot.grid(row=2, column=0)
 
 canvas = None
 
-
-
 def go():
     ##stock_num = str(input("輸入股票代碼:"))
     ##stock_num = '2330'
@@ -83,7 +81,7 @@ def go():
                 death_cross = np.append(death_cross,[stock_df.index[i]])
         print("gold\n",gold_cross)
         print("death\n",death_cross)
-    
+
         ###MACD
         stock_df["MACD"],stock_df["MACDsignal"],stock_df["MACDhist"] = talib.MACD(np.array(close),fastperiod = 6,slowperiod = 12,signalperiod = 9)
         

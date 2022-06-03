@@ -15,6 +15,6 @@ for i in range(data.shape[0]):
     score+=data.loc[i]['(年)營業毛利率(%)']>data.loc[i]['(年-1)營業毛利率(%)']
     score+=data.loc[i]['(年)總資產週轉率(次)']>data.loc[i]['(年-1)總資產週轉率(次)']
     s = np.append(s,[score])
-    print(data.loc[i]['代號'],':',score)
+    # print(data.loc[i]['代號'],':',score)
 data['f_score'] = s
 print(data)
