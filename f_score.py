@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import openpyxl
-data = pd.read_excel("123.xlsx")
+data = pd.read_excel("fscore.xlsx")
 data.set_index('代號')
 s = np.array([])
 for i in range(data.shape[0]):
