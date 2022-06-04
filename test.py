@@ -104,10 +104,14 @@ def go():
     ##stock_num = str(input("輸入股票代碼:"))
     ##stock_num = '2330'
     skillpoint = [0,0,0,0] ##壓力 布林 均線 MACD
-    print(datetime.date.today())
+    today = datetime.datetime.today() - datetime.timedelta(days=3) ##2022-06-04
+    s =  today.strftime('%Y-%m-%d')
+    # print(type(s))
+ 
     global canvas
     #canvas = None 
     stock_num = entry0.get()
+
     start = datetime.datetime(2021,9,24)
     stock_df = pdr.DataReader(stock_num+'.TW', 'yahoo', start=start)
     if(stock_df is not None):
@@ -129,8 +133,12 @@ def go():
                 death_cross = np.append(death_cross,[stock_df.index[i]])
         print("gold\n",gold_cross)
         print("death\n",death_cross)
-
-        ###MACD
+        
+        stock_df["EMA20"] = int(0)
+        stock_df["EMA20"] = talib.EMA(np.array(close),timeperiod=20)
+        
+        print(stock_df.at[s,"Open"])
+        ###MACDd
         stock_df["MACD"],stock_df["MACDsignal"],stock_df["MACDhist"] = talib.MACD(np.array(close),fastperiod = 6,slowperiod = 12,signalperiod = 9)
         
         ###KD值
