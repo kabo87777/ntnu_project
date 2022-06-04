@@ -1,4 +1,5 @@
 # coding=UTF-8
+from asyncio.windows_events import NULL
 from tkinter import *
 from tkinter.constants import BOTH, CENTER, LEFT
 from matplotlib.pyplot import close
@@ -104,9 +105,7 @@ def go():
     ##stock_num = str(input("輸入股票代碼:"))
     ##stock_num = '2330'
     skillpoint = [0,0,0,0] ##壓力 布林 均線 MACD
-    today = datetime.datetime.today() - datetime.timedelta(days=3) ##2022-06-04
-    s =  today.strftime('%Y-%m-%d')
-    # print(type(s))
+
  
     global canvas
     #canvas = None 
@@ -137,7 +136,10 @@ def go():
         stock_df["EMA20"] = int(0)
         stock_df["EMA20"] = talib.EMA(np.array(close),timeperiod=20)
         
-        print(stock_df.at[s,"Open"])
+        today = datetime.datetime.today() - datetime.timedelta(days=0) ##2022-06-04
+        # last_day =  today.strftime('%Y-%m-%d')
+        last_day = stock_df.index.tolist()[-1]
+        print(type(stock_df.at[last_day,"Open"]))
         ###MACDd
         stock_df["MACD"],stock_df["MACDsignal"],stock_df["MACDhist"] = talib.MACD(np.array(close),fastperiod = 6,slowperiod = 12,signalperiod = 9)
         
