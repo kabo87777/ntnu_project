@@ -103,6 +103,8 @@ frame_plot.grid(row=2, column=0)
 def go():
     ##stock_num = str(input("輸入股票代碼:"))
     ##stock_num = '2330'
+    skillpoint = [0,0,0,0] ##壓力 布林 均線 MACD
+    print(datetime.date.today())
     global canvas
     #canvas = None 
     stock_num = entry0.get()
@@ -356,7 +358,7 @@ b3.place(
 
 canvas.create_text(
     726.5, 135.0,
-    text = "2330",
+    text = "stock",
     fill = "#fd7014",
     font = ("None", int(35.0)))
 
