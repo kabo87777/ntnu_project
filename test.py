@@ -196,6 +196,61 @@ def go():
             
         #stock_df.to_csv('./SVM/'+stock_num+'.csv')
 
+        #顯示資訊
+        canvas.create_text(
+        726.5, 135.0,
+        text = "2330",
+        fill = "#fd7014",
+        font = ("None", int(35.0)))
+
+        canvas.create_text(
+        1358.5, 226.0,
+        text = "score",
+        fill = "#eeeeee",
+        font = ("None", int(35.0)))
+
+        canvas.create_text(
+        510.0, 789.5,
+        text = "start	\n547.00\nhigh	\n547.00\nlow	\n535.00",
+        fill = "#000000",
+        font = ("None", int(26.0)))
+
+        canvas.create_text(
+        721.0, 789.5,
+        text = "value\n13.95\nP/E ratio	\n21.15\nyield\n2.04%",
+        fill = "#000000",
+        font = ("None", int(26.0)))
+
+        canvas.create_text(
+        934.0, 789.5,
+        text = "CDP	\nB\n52 wk high\n688.00\n52 wk low	\n518.00",
+        fill = "#000000",
+        font = ("None", int(26.0)))
+
+        canvas.create_text(
+        1265.0, 355.0,
+        text = "ma",
+        fill = "#000000",
+        font = ("None", int(35.0)))
+
+        canvas.create_text(
+        1429.0, 454.0,
+        text = "8",
+        fill = "#000000",
+        font = ("None", int(100.0)))
+
+        canvas.create_text(
+        1497.0, 503.0,
+        text = "/10",
+        fill = "#000000",
+        font = ("None", int(30.0)))
+
+        canvas.create_text(
+        1263.5, 491.5,
+        text = "ma Long \nma short\n3 day gold\n3 dat dead",
+        fill = "#000000",
+        font = ("None", int(25.0)))
+
     else:
         print("wrong number")
 
