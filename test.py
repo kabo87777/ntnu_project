@@ -184,12 +184,7 @@ def go():
         # canvas.get_tk_widget().grid(row=2, column=0)
         daily_fig.savefig(stock_num + ".png")
 
-        trend_img = PhotoImage(file = stock_num + ".png")
-        trend_img = trend_img.zoom(4)
-        trend_img = trend_img.subsample(5)
-        canvas.create_image(
-        720.0, 400.0,
-        image = trend_img)
+        
     
         # # creating the Matplotlib toolbar
         # toolbar = NavigationToolbar2Tk(canvas,window)
@@ -362,6 +357,14 @@ def go():
         font = ("None", int(25.0)),
         tag="info")
 
+        global trend_img
+        trend_img = PhotoImage(file = stock_num+".png")
+        trend_img = trend_img.zoom(4)
+        trend_img = trend_img.subsample(5)
+        canvas.create_image(
+        720.0, 400.0,
+        image = trend_img)
+
     else:
         print("wrong number")
 
@@ -369,6 +372,7 @@ def go():
 # 主技術分析策略: 5/10/20/60MA 布林通道 RSI
 
 # 副技術分析策略: VOL RSI MACD KD
+trend_img = PhotoImage(file = "2330.png")
 
 but_col = 0
 BBAND_check = tk.Checkbutton(frame_strategy, text='BBAND', var=bband) 
