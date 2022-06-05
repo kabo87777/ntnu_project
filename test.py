@@ -13,6 +13,7 @@ import pandas as pd
 import tkinter as tk
 import tkinter.tix as tix
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
+import openpyxl
 
 
 
@@ -129,8 +130,8 @@ def go():
                 gold_cross = np.append(gold_cross,[stock_df.index[i]])
             if cross[i]==1 and cross[i+1]==-1:
                 death_cross = np.append(death_cross,[stock_df.index[i]])
-        print("gold\n",gold_cross)
-        print("death\n",death_cross)
+        #print("gold\n",gold_cross)
+        #print("death\n",death_cross)
         
         stock_df["EMA20"] = int(0)
         stock_df["EMA20"] = talib.EMA(np.array(close),timeperiod=20)
@@ -207,6 +208,27 @@ def go():
             
         #stock_df.to_csv('./SVM/'+stock_num+'.csv')
 
+        #f_score
+        f_score_data = pd.read_excel("fscore.xlsx")
+        f_score_data.set_index('代號')
+        s = np.array([])
+        score = 0
+        for i in range(f_score_data.shape[0]):
+            if str(f_score_data.loc[i]['代號'])!=str(stock_num):
+                continue
+            score = 0
+            score+=f_score_data.loc[i]['(年)資產報酬率(%)']>0
+            score+=f_score_data.loc[i]['(年)來自營運之現金流量(百萬)']>0
+            score+=f_score_data.loc[i]['(年)來自營運之現金流量(百萬)']>f_score_data.loc[i]['(年)稅後淨利(百萬)']
+            score+=f_score_data.loc[i]['(年)負債比率(%)']<f_score_data.loc[i]['(年-1)負債比率(%)']
+            score+=f_score_data.loc[i]['(年)流動比率(%)']>f_score_data.loc[i]['(年-1)流動比率(%)']
+            score+=f_score_data.loc[i]['(年)資產報酬率(%)']>f_score_data.loc[i]['(年-1)資產報酬率(%)']
+            score+=f_score_data.loc[i]['(年)營業毛利率(%)']>f_score_data.loc[i]['(年-1)營業毛利率(%)']
+            score+=f_score_data.loc[i]['(年)總資產週轉率(次)']>f_score_data.loc[i]['(年-1)總資產週轉率(次)']
+            #s = np.append(s,[score])
+            # print(f_score_data.loc[i]['代號'],':',score)
+        #f_score_data['f_score'] = s
+        #print(f_score_data.index)
         #顯示資訊
         # canvas.create_text(
         # 726.5, 135.0,
@@ -246,28 +268,28 @@ def go():
 
         canvas.create_text(
         1265.0, 355.0,
-        text = "ma",
+        text = "F-SCORE",
         fill = "#000000",
         font = ("None", int(35.0)),
         tag="info")
 
         canvas.create_text(
         1429.0, 454.0,
-        text = "8",
+        text = score,
         fill = "#000000",
         font = ("None", int(100.0)),
         tag="info")
 
         canvas.create_text(
         1497.0, 503.0,
-        text = "/10",
+        text = "/9",
         fill = "#000000",
         font = ("None", int(30.0)),
         tag="info")
 
         canvas.create_text(
         1263.5, 491.5,
-        text = "ma Long \nma short\n3 day gold\n3 dat dead",
+        #text = "ma Long \nma short\n3 day gold\n3 dat dead",
         fill = "#000000",
         font = ("None", int(25.0)),
         tag="info")
