@@ -14,8 +14,7 @@ import tkinter as tk
 import tkinter.tix as tix
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 import openpyxl
-
-
+import tkinter.font as tkFont
 
 def RSI(df, period):
     return abstract.RSI(df, timeperiod=period)
@@ -54,15 +53,15 @@ canvas.create_rectangle(
     fill = "#eeeeee",
     outline = "")
 
-
+#右下
 canvas.create_rectangle(
-    1092, 669, 1092+460, 669+230,
+    1092, 419, 1092+460, 419+480,
     fill = "#c4c4c4",
     outline = "")
 
-
+#右上
 canvas.create_rectangle(
-    1092, 297, 1092+460, 297+338,
+    1092, 297, 1092+360, 297+100,
     fill = "#c4c4c4",
     outline = "")
 
@@ -101,6 +100,8 @@ frame_entry.grid(row=1, column=0)
 
 frame_plot = tk.Frame(window)
 frame_plot.grid(row=2, column=0)
+
+f1 = tkFont.Font(family='Courier',size = 25 , weight='bold') #bold=粗體，normal=一般
 
 def go():
     ##stock_num = str(input("輸入股票代碼:"))
@@ -298,19 +299,13 @@ def go():
             skillpoint[3] += 50
             if stock_df ["MACDsignal"][-1] > 0:
                 skillpoint[3] += 50
-        
-        canvas.create_text(
-        1358.5, 226.0,
-        text = "score",
-        fill = "#eeeeee",
-        font = ("None", int(35.0)),
-        tag="info")
 
         canvas.create_text(
         510.0, 789.5,
         text = "Open \n"+str(round(stock_df.at[last_day,"Open"],0))+"\nClose \n"+str(round(stock_df.at[last_day,"Close"],0))+"\nVolume \n"+str(round(stock_df.at[last_day,"Volume"],0)),
         fill = "#000000",
-        font = ("None", int(26.0)),
+        #font = ("None", int(26.0)),
+        font = f1,
         tag="info")
 
         #stock_df.at[last_day,"Open"]
@@ -320,7 +315,8 @@ def go():
         721.0, 789.5,
         text = "High \n"+str(round(stock_df.at[last_day,"High"],0))+"\nLow \n"+str(round(stock_df.at[last_day,"Low"],0)),
         fill = "#000000",
-        font = ("None", int(26.0)),
+        #font = ("None", int(26.0)),
+        font = f1,
         tag="info")
 
         # canvas.create_text(
@@ -331,30 +327,34 @@ def go():
 
         canvas.create_text(
         1265.0, 355.0,
-        text = "F-SCORE",
+        #text = "F-SCORE",
         fill = "#000000",
-        font = ("None", int(35.0)),
+        #font = ("None", int(35.0)),
+        font = f1,
         tag="info")
 
         canvas.create_text(
         1429.0, 454.0,
-        text = score,
+        #text = score,
         fill = "#000000",
-        font = ("None", int(100.0)),
+        #font = ("None", int(100.0)),
+        font = f1,
         tag="info")
 
         canvas.create_text(
         1497.0, 503.0,
-        text = "/9",
+        #text = "/9",
         fill = "#000000",
-        font = ("None", int(30.0)),
+        #font = ("None", int(30.0)),
+        font = f1,
         tag="info")
 
         canvas.create_text(
-        1263.5, 491.5,
-        #text = "ma Long \nma short\n3 day gold\n3 dat dead",
+        1163.5, 541.5,
+        text = "布林通道\n" + str(skillpoint[1]) + "\n均線理論\n" + str(skillpoint[2]) + "\nMACD\n" + str(skillpoint[3]),
         fill = "#000000",
-        font = ("None", int(25.0)),
+        #font = ("None", int(25.0)),
+        font = f1,
         tag="info")
 
         global trend_img
@@ -466,6 +466,14 @@ b3.place(
     x = 1057, y = 18,
     width = 64,
     height = 47)
+
+#文字
+canvas.create_text(
+1358.5, 226.0,
+text = "score",
+fill = "#eeeeee",
+font = f1
+)
 
 #顯示走勢圖
 # trend_img = PhotoImage(file = f"output.png")
