@@ -105,7 +105,7 @@ frame_plot.grid(row=2, column=0)
 def go():
     ##stock_num = str(input("輸入股票代碼:"))
     ##stock_num = '2330'
-    skillpoint = [0,0,0,0] ##壓力 布林 均線 MACD
+    
     global canvas
     #canvas = None 
     canvas.delete("info")
@@ -132,16 +132,19 @@ def go():
                 death_cross = np.append(death_cross,[stock_df.index[i]])
         #print("gold\n",gold_cross)
         #print("death\n",death_cross)
-        
+
+
         stock_df["EMA20"] = int(0)
         stock_df["EMA20"] = talib.EMA(np.array(close),timeperiod=20)
         
         today = datetime.datetime.today() - datetime.timedelta(days=0) ##2022-06-04
         # last_day =  today.strftime('%Y-%m-%d')
         last_day = stock_df.index.tolist()[-1]
+        
+
         #print(type(stock_df.at[last_day,"Open"]))
         ###MACDd
-        stock_df["MACD"],stock_df["MACDsignal"],stock_df["MACDhist"] = talib.MACD(np.array(close),fastperiod = 6,slowperiod = 12,signalperiod = 9)
+        stock_df["MACD"],stock_df["MACDsignal"],stock_df["MACDhist"] = talib.MACD(np.array(close),fastperiod = 12,slowperiod = 26,signalperiod = 9)
         
         ###KD值
         stock_df['k'], stock_df['d'] = talib.STOCH(stock_df['High'], stock_df['Low'], stock_df['close'],fastk_period = 9)
@@ -236,6 +239,71 @@ def go():
         # fill = "#fd7014",
         # font = ("None", int(35.0)))
 
+        #############分數計算######################
+        skillpoint = [0,0,0,0] ##壓力 布林 均線 MACD
+        last_gold = gold_cross[-1]
+        last_death = death_cross[-1]
+        # last_gold = last_gold  - datetime.timedelta(days = 0)
+        
+        ######布林 
+        # stock_df['upperband'],stock_df['middleband'],stock_df['lowerband']
+        if stock_df["Close"][-1] > stock_df['lowerband'][-1] and stock_df["Close"][-2] > stock_df['lowerband'][-2]:
+            skillpoint[1] = 100
+        elif stock_df["Close"][-1] > stock_df['middleband'][-1] and stock_df["Close"][-2] > stock_df['middleband'][-2]:
+            skillpoint[1] = 100
+        flag = 1
+        for i in range(5):
+            a = stock_df["Close"][-1 - i]
+            b = stock_df["middleband"][-1 - i]
+            if a < b:
+                flag = 0
+                break
+        if flag and stock_df["Close"][-1] > stock_df['middleband'][-1] * 0.1:
+            skillpoint[1] = 100
+        ######均線
+        ##近3天多頭排列
+        flag = 1
+        for i in range(3):
+            a = stock_df["EMA5"][-1 - i]
+            b = stock_df["EMA10"][-1 - i]
+            c = stock_df["EMA20"][-1 - i]
+            if a < b or b < c:
+                flag = 0
+                break
+        if flag:
+            skillpoint[2] += 40
+        #近3日>5MA
+        flag = 1
+        for i in range(3):
+            a = stock_df["Close"][-1 - i]
+            b = stock_df["EMA5"][-1 - i]
+            if a < b:
+                flag = 0
+                break
+        if flag:
+            skillpoint[2] += 40
+        #近三日黃金交叉
+        flag = 0
+        for i in range(30):
+            a = stock_df.index.tolist()[-1 - i]
+            if a == last_gold:
+                flag = 1
+                break
+        if flag:
+            skillpoint[2] += 20
+
+        ####MACD 
+        # stock_df["MACD"],stock_df["MACDsignal"],stock_df["MACDhist"]
+        ##macd（对应dif） macdsignal（对应dea）macdhist（对应dif - dea）
+        # 1.DIFF、DEA均为正，DIFF向上突破DEA，买入信号。       
+        # 2.DIFF、DEA均为负，DIFF向下跌破DEA，卖出信号。       
+        # 3.DEA线与K线发生背离，行情反转信号。       
+        # 4.分析MACD柱状线，由正变负，卖出信号；由负变正，买入信号。
+        if stock_df["MACDhist"][-1] > 0 and stock_df["MACDhist"][-2] < 0 :
+            skillpoint[3] += 50
+            if stock_df ["MACDsignal"][-1] > 0:
+                skillpoint[3] += 50
+        
         canvas.create_text(
         1358.5, 226.0,
         text = "score",
