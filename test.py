@@ -111,7 +111,7 @@ def go():
     canvas.delete("info")
     stock_num = entry0.get()
 
-    start = datetime.datetime(2021,9,24)
+    start = datetime.datetime(2022,3,5)
     stock_df = pdr.DataReader(stock_num+'.TW', 'yahoo', start=start)
     if(stock_df is not None):
         stock_df["close"] = stock_df["Close"]
