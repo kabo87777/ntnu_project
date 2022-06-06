@@ -302,7 +302,7 @@ def go():
                 skillpoint[3] += 50
 
         canvas.create_text(
-        510.0, 789.5,
+        510.0, 785.5,
         text = "Open \n"+str(round(stock_df.at[last_day,"Open"],0))+"\nClose \n"+str(round(stock_df.at[last_day,"Close"],0))+"\nVolume \n"+str(round(stock_df.at[last_day,"Volume"],0)),
         fill = "#000000",
         #font = ("None", int(26.0)),
@@ -332,7 +332,7 @@ def go():
         total += (score/16)*100
         #print(skillpoint,score,total)
         canvas.create_text(
-        1250, 355,
+        1180, 345,
         text = round(total,2),
         fill = "#000000",
         font = f1,
@@ -369,14 +369,14 @@ def go():
             macd_text = good_or_bad[1]
         elif skillpoint[3]<50:
             macd_text = good_or_bad[2]
-        if score>7:
+        if score>=7:
             fscore_text = good_or_bad[0]
         elif score>=4 and score<7:
             fscore_text = good_or_bad[1]
         elif score<4:
             fscore_text = good_or_bad[2]
         canvas.create_text(
-        1163.5, 541.5,
+        1163.5, 581.5,
         text = "布林通道\n" + bband_text + "\n均線理論\n" + ma_text + "\nMACD\n" + macd_text+ "\nF-SCORE\n" + fscore_text,
         fill = "#000000",
         #font = ("None", int(25.0)),
