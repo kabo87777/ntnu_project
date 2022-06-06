@@ -279,7 +279,7 @@ def go():
             skillpoint[2] += 40
         #近三日黃金交叉
         flag = 0
-        for i in range(30):
+        for i in range(3):
             a = stock_df.index.tolist()[-1 - i]
             if a == last_gold:
                 flag = 1
