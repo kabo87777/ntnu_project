@@ -102,7 +102,7 @@ frame_plot = tk.Frame(window)
 frame_plot.grid(row=2, column=0)
 
 f1 = tkFont.Font(family='Tw Cen MT',size = 25 , weight='normal') #bold=粗體，normal=一般
-print(tkFont.families())
+#print(tkFont.families())
 
 def go():
     ##stock_num = str(input("輸入股票代碼:"))
@@ -326,11 +326,15 @@ def go():
         # fill = "#000000",
         # font = ("None", int(26.0)))
 
+
+        #分數
+        total = (skillpoint[1]+skillpoint[2]+skillpoint[3])/6
+        total += (score/16)*100
+        #print(skillpoint,score,total)
         canvas.create_text(
-        1265.0, 355.0,
-        #text = "F-SCORE",
+        1250, 355,
+        text = round(total,2),
         fill = "#000000",
-        #font = ("None", int(35.0)),
         font = f1,
         tag="info")
 
@@ -350,9 +354,30 @@ def go():
         font = f1,
         tag="info")
 
+        good_or_bad = ["優","中","差"]
+        print(skillpoint)
+        bband_text = good_or_bad[skillpoint[1]!=100]
+        if skillpoint[2]==100:
+            ma_text = good_or_bad[0]
+        elif skillpoint[2]>=60 and skillpoint[2]<100:
+            ma_text = good_or_bad[1]
+        elif skillpoint[2]<60:
+            ma_text = good_or_bad[2]
+        if skillpoint[3]==100:
+            macd_text = good_or_bad[0]
+        elif skillpoint[3]==50:
+            macd_text = good_or_bad[1]
+        elif skillpoint[3]<50:
+            macd_text = good_or_bad[2]
+        if score>7:
+            fscore_text = good_or_bad[0]
+        elif score>=4 and score<7:
+            fscore_text = good_or_bad[1]
+        elif score<4:
+            fscore_text = good_or_bad[2]
         canvas.create_text(
         1163.5, 541.5,
-        text = "布林通道\n" + str(skillpoint[1]) + "\n均線理論\n" + str(skillpoint[2]) + "\nMACD\n" + str(skillpoint[3]),
+        text = "布林通道\n" + bband_text + "\n均線理論\n" + ma_text + "\nMACD\n" + macd_text+ "\nF-SCORE\n" + fscore_text,
         fill = "#000000",
         #font = ("None", int(25.0)),
         font = f1,
