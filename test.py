@@ -169,7 +169,7 @@ def go():
                 mpf.make_addplot(stock_df['middleband'],color='y',width=1),
                 mpf.make_addplot(stock_df['upperband'],color = 'orange',width=1)])
         if(macd.get()):
-            index.extend([mpf.make_addplot(stock_df["MACD"], panel = panel,type='bar', ylabel = 'MACD', color = 'red')])
+            index.extend([mpf.make_addplot(stock_df["MACDhist"], panel = panel,type='bar', ylabel = 'MACD', color = 'red')])
             panel+=1
         if(rsi.get()):
             index.extend([mpf.make_addplot(RSI(stock_df, 14), panel = panel, ylabel = 'RSI', color = 'lime',width=1)])
