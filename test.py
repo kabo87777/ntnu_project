@@ -101,7 +101,8 @@ frame_entry.grid(row=1, column=0)
 frame_plot = tk.Frame(window)
 frame_plot.grid(row=2, column=0)
 
-f1 = tkFont.Font(family='Courier',size = 25 , weight='bold') #bold=粗體，normal=一般
+f1 = tkFont.Font(family='Tw Cen MT',size = 25 , weight='normal') #bold=粗體，normal=一般
+print(tkFont.families())
 
 def go():
     ##stock_num = str(input("輸入股票代碼:"))
