@@ -112,9 +112,12 @@ def go():
     #canvas = None 
     canvas.delete("info")
     stock_num = entry0.get()
-
-    start = datetime.datetime(2022,3,5)
-    stock_df = pdr.DataReader(stock_num+'.TW', 'yahoo', start=start)
+    # end = datetime.datetime(2022,6,2)
+    # end = datetime.datetime(2022,6,15)
+    end = datetime.datetime(2022,6,17)
+    start = end -  datetime.timedelta(days = 50)
+    # end = datetime.datetime(2022,6,17)
+    stock_df = pdr.DataReader(stock_num+'.TW', 'yahoo', start=start,end=end)
     if(stock_df is not None):
         stock_df["close"] = stock_df["Close"]
         close = [float(x) for x in stock_df["close"]]
@@ -239,15 +242,17 @@ def go():
         #############分數計算######################
         skillpoint = [0,0,0,0] ##壓力 布林 均線 MACD
         last_gold = gold_cross[-1]
-        last_death = death_cross[-1]
+        # last_death = death_cross[-1]
         # last_gold = last_gold  - datetime.timedelta(days = 0)
         
         ######布林 
         # stock_df['upperband'],stock_df['middleband'],stock_df['lowerband']
-        if stock_df["Close"][-1] > stock_df['lowerband'][-1] and stock_df["Close"][-2] > stock_df['lowerband'][-2]:
+        if stock_df["Close"][-1] > stock_df['lowerband'][-1] and stock_df["Close"][-2] < stock_df['lowerband'][-2]:
             skillpoint[1] = 100
-        elif stock_df["Close"][-1] > stock_df['middleband'][-1] and stock_df["Close"][-2] > stock_df['middleband'][-2]:
+            print(123)
+        elif stock_df["Close"][-1] > stock_df['middleband'][-1] and stock_df["Close"][-2] < stock_df['middleband'][-2]:
             skillpoint[1] = 100
+            print(456)
         flag = 1
         for i in range(5):
             a = stock_df["Close"][-1 - i]
@@ -255,7 +260,7 @@ def go():
             if a < b:
                 flag = 0
                 break
-        if flag and stock_df["Close"][-1] > stock_df['middleband'][-1] * 0.1:
+        if flag and stock_df["Close"][-1] < stock_df['middleband'][-1] * 1.1 and stock_df["Close"][-1] > stock_df['middleband'][-1]:
             skillpoint[1] = 100
         ######均線
         ##近3天多頭排列
@@ -356,7 +361,11 @@ def go():
 
         good_or_bad = ["優","中","差"]
         print(skillpoint)
-        bband_text = good_or_bad[skillpoint[1]!=100]
+        if skillpoint[1]!=100:
+            bband_text = good_or_bad[2]
+        elif skillpoint[1]==100:
+            bband_text = good_or_bad[0]
+        
         if skillpoint[2]==100:
             ma_text = good_or_bad[0]
         elif skillpoint[2]>=60 and skillpoint[2]<100:
